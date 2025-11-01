@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Slideshow with Hearts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .slideshow-container {
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .slide:hover .slide-caption {
+            transform: translateY(0);
+        }
+
+        .slide-caption h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .slide-caption p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .prev:before, .next:before {
+            content: '';
+            border: solid #333;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 6px;
+        }
+
+        .prev:before {
+            transform: rotate(135deg);
+            margin-left: 4px;
+        }
+
+        .next:before {
+            transform: rotate(-45deg);
+            margin-right: 4px;
+        }
+
+        .dots-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            background-color: #f0f0f0;
+            gap: 15px;
+        }
+
+        .control-btn {
+            padding: 8px 15px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background-color: #3a7bc8;
+        }
+
+        .control-btn.active {
+            background-color: #e24a4a;
+        }
+
+        .timer-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background-color: #4a90e2;
+            width: 0;
+            transition: width 2s linear;
+            z-index: 5;
+        }
+
+        .timer-bar.active {
+            width: 100%;
+        }
+
+        /* Heart animation styles */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 0, 100, 0.7);
+            transform: rotate(45deg);
+            animation: floatUp 2s ease-out forwards;
+            z-index: 6;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 0, 100, 0.7);
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: rotate(45deg) translateY(0) scale(0);
+            }
+            15% {
+                opacity: 1;
+                transform: rotate(45deg) translateY(-20px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: rotate(45deg) translateY(-150px) scale(0.5);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                height: 350px;
+            }
+            
+            .prev, .next {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .slide-caption h3 {
+                font-size: 1.2rem;
+            }
+            
+            .slide-caption p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slides-wrapper">
+            <!-- Slide 1 -->
+            <div class="slide active">
+                <img src="https://picsum.photos/seed/slide1/900/500.jpg" alt="Beautiful Landscape">
+                <div class="slide-caption">
+                    <h3>Beautiful Landscape</h3>
+                    <p>Explore the wonders of nature</p>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <img src="https://picsum.photos/seed/slide2/900/500.jpg" alt="City Skyline">
+                <div class="slide-caption">
+                    <h3>City Skyline</h3>
+                    <p>Urban architecture at its finest</p>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+                <img src="https://picsum.photos/seed/slide3/900/500.jpg" alt="Ocean View">
+                <div class="slide-caption">
+                    <h3>Ocean View</h3>
+                    <p>The calming sound of waves</p>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="slide">
+                <img src="https://picsum.photos/seed/slide4/900/500.jpg" alt="Mountain Peak">
+                <div class="slide-caption">
+                    <h3>Mountain Peak</h3>
+                    <p>Reach new heights</p>
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="slide">
+                <img src="https://picsum.photos/seed/slide5/900/500.jpg" alt="Forest Path">
+                <div class="slide-caption">
+                    <h3>Forest Path</h3>
+                    <p>A journey through the woods</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="prev" onclick="changeSlide(-1)"></div>
+        <div class="next" onclick="changeSlide(1)"></div>
+
+        <!-- Dots indicators -->
+        <div class="dots-container">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+        </div>
+
+        <!-- Timer bar -->
+        <div class="timer-bar" id="timerBar"></div>
+
+        <!-- Control buttons -->
+        <div class="controls">
+            <button class="control-btn" id="playPauseBtn" onclick="togglePlayPause()">Pause</button>
+            <button class="control-btn" onclick="resetSlideshow()">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let slideIndex = 1;
+        let slideInterval;
+        let isPlaying = true;
+        const timerBar = document.getElementById('timerBar');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+
+        // Initialize the slideshow
+        function initSlideshow() {
+            showSlide(slideIndex);
+            startSlideshow();
+        }
+
+        // Create heart animation
+        function createHearts() {
+            const currentSlideElement = document.querySelector('.slide.active');
+            const slideWidth = currentSlideElement.offsetWidth;
+            const slideHeight = currentSlideElement.offsetHeight;
+            
+            // Create multiple hearts at random positions
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    
+                    // Random position within the slide
+                    const leftPosition = Math.random() * (slideWidth - 20);
+                    const bottomPosition = Math.random() * 100; // Start from bottom area
+                    
+                    heart.style.left = `${leftPosition}px`;
+                    heart.style.bottom = `${bottomPosition}px`;
+                    
+                    // Random size variation
+                    const scale = 0.5 + Math.random() * 0.5;
+                    heart.style.transform = `rotate(45deg) scale(${scale})`;
+                    
+                    // Random color variation
+                    const red = 255;
+                    const green = Math.floor(Math.random() * 100);
+                    const blue = Math.floor(Math.random() * 100);
+                    const opacity = 0.5 + Math.random() * 0.5;
+                    
+                    heart.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+                    
+                    // Set pseudo-element colors
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        .heart:nth-child(${i + 1}):before,
+                        .heart:nth-child(${i + 1}):after {
+                            background-color: rgba(${red}, ${green}, ${blue}, ${opacity});
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    currentSlideElement.appendChild(heart);
+                    
+                    // Remove heart after animation completes
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 2000);
+                }, i * 200); // Stagger the appearance of hearts
+            }
+        }
+
+        // Start the automatic slideshow
+        function startSlideshow() {
+            if (isPlaying) {
+                // Start the timer bar animation
+                timerBar.classList.add('active');
+                
+                // Set interval to change slide every 2 seconds
+                slideInterval = setInterval(() => {
+                    slideIndex++;
+                    showSlide(slideIndex);
+                    
+                    // Reset and restart the timer bar animation
+                    timerBar.classList.remove('active');
+                    void timerBar.offsetWidth; // Trigger reflow
+                    timerBar.classList.add('active');
+                }, 2000);
+            }
+        }
+
+        // Stop the slideshow
+        function stopSlideshow() {
+            clearInterval(slideInterval);
+            timerBar.classList.remove('active');
+        }
+
+        // Toggle play/pause
+        function togglePlayPause() {
+            isPlaying = !isPlaying;
+            
+            if (isPlaying) {
+                playPauseBtn.textContent = 'Pause';
+                playPauseBtn.classList.remove('active');
+                startSlideshow();
+            } else {
+                playPauseBtn.textContent = 'Play';
+                playPauseBtn.classList.add('active');
+                stopSlideshow();
+            }
+        }
+
+        // Reset slideshow to first slide
+        function resetSlideshow() {
+            stopSlideshow();
+            slideIndex = 1;
+            showSlide(slideIndex);
+            if (isPlaying) {
+                startSlideshow();
+            }
+        }
+
+        // Change slide by n positions
+        function changeSlide(n) {
+            stopSlideshow();
+            slideIndex += n;
+            showSlide(slideIndex);
+            
+            // Reset and restart the timer bar animation
+            timerBar.classList.remove('active');
+            void timerBar.offsetWidth; // Trigger reflow
+            timerBar.classList.add('active');
+            
+            if (isPlaying) {
+                startSlideshow();
+            }
+        }
+
+        // Go to specific slide
+        function currentSlide(n) {
+            stopSlideshow();
+            slideIndex = n;
+            showSlide(slideIndex);
+            
+            // Reset and restart the timer bar animation
+            timerBar.classList.remove('active');
+            void timerBar.offsetWidth; // Trigger reflow
+            timerBar.classList.add('active');
+            
+            if (isPlaying) {
+                startSlideshow();
+            }
+        }
+
+        // Display the current slide
+        function showSlide(n) {
+            const slides = document.getElementsByClassName('slide');
+            const dots = document.getElementsByClassName('dot');
+            
+            // Handle wrap-around
+            if (n > slides.length) {
+                slideIndex = 1;
+            }
+            if (n < 1) {
+                slideIndex = slides.length;
+            }
+            
+            // Hide all slides
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+            
+            // Remove active class from all dots
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.remove('active');
+            }
+            
+            // Show current slide and highlight current dot
+            slides[slideIndex - 1].classList.add('active');
+            dots[slideIndex - 1].classList.add('active');
+            
+            // Create hearts for the new slide
+            createHearts();
+        }
+
+        // Pause slideshow on hover
+        document.querySelector('.slideshow-container').addEventListener('mouseenter', () => {
+            if (isPlaying) {
+                stopSlideshow();
+            }
+        });
+
+        // Resume slideshow when mouse leaves
+        document.querySelector('.slideshow-container').addEventListener('mouseleave', () => {
+            if (isPlaying) {
+                startSlideshow();
+            }
+        });
+
+        // Initialize the slideshow when the page loads
+        window.onload = () => {
+            initSlideshow();
+            // Create hearts for the initial slide
+            createHearts();
+        };
+    </script>
+</body>
+</html>
