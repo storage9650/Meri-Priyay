@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #000; /* Changed to black for better contrast with full-screen images */
+            font-family: 'Lucida Console', monospace;
+            background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,7 +25,7 @@
             position: relative;
             max-width: 900px;
             width: 100%;
-            background-color: #000; /* Black background to fill empty space */
+            background-color: #000;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
@@ -37,7 +37,7 @@
             width: 100%;
             height: 500px;
             overflow: hidden;
-            background-color: #000; /* Black background for the slide */
+            background-color: #000;
         }
 
         .slide.active {
@@ -53,7 +53,7 @@
         .slide img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Changed from cover to contain to show full image */
+            object-fit: contain;
         }
 
         .slide-caption {
@@ -62,7 +62,7 @@
             left: 0;
             right: 0;
             background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-            color: white;
+            color: #FF69B4; /* Changed font color to HotPink to match the hearts */
             padding: 20px;
             text-align: center;
             transform: translateY(100%);
@@ -174,10 +174,16 @@
             position: absolute;
             width: 20px;
             height: 20px;
-            background-color: rgba(255, 0, 100, 0.7);
             transform: rotate(45deg);
-            animation: floatUp 2s ease-out forwards;
             z-index: 6;
+        }
+
+        .heart.falling {
+            animation: fallDown 3s ease-out forwards;
+        }
+
+        .heart.rising {
+            animation: floatUp 2s ease-out forwards;
         }
 
         .heart:before,
@@ -186,7 +192,6 @@
             position: absolute;
             width: 20px;
             height: 20px;
-            background-color: rgba(255, 0, 100, 0.7);
             border-radius: 50%;
         }
 
@@ -212,6 +217,21 @@
             100% {
                 opacity: 0;
                 transform: rotate(45deg) translateY(-150px) scale(0.5);
+            }
+        }
+
+        @keyframes fallDown {
+            0% {
+                opacity: 1;
+                transform: rotate(45deg) translateY(0) scale(0);
+            }
+            15% {
+                opacity: 1;
+                transform: rotate(45deg) translateY(20px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: rotate(45deg) translateY(150px) scale(0.5);
             }
         }
 
@@ -253,52 +273,54 @@
             }
             
             .dots-container {
-                bottom: 20px; /* Adjusted position since controls are gone */
+                bottom: 20px;
             }
         }
     </style>
 </head>
 <body>
+    <audio id="backgroundMusic" src="https://scontent-sjc6-1.cdninstagram.com/o1/v/t2/f2/m86/AQPXPFiAtax-QNtryzRkqaeeOdtMPHx3-Mhzap-zi3drB2Fd9YHwIGXxp4iNfrbob1wK7aRUmXueCw3fkOKc1fWh0Xe3FBDFzgVZm3U.mp4?_nc_cat=111&_nc_sid=5e9851&_nc_ht=scontent-sjc6-1.cdninstagram.com&_nc_ohc=lvnEn2ougysQ7kNvwHv7aW5&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5JTlNUQUdSQU0uQ0xJUFMuQzMuNzE4LmRhc2hfYmFzZWxpbmVfMV92MSIsInhwdl9hc3NldF9pZCI6MTI0MDU1Njc0NDAzNDMwNCwiYXNzZXRfYWdlX2RheXMiOjk2LCJ2aV91c2VjYXNlX2lkIjoxMDA5OSwiZHVyYXRpb25fcyI6MzgsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&vs=c8cb5defb8668840&_nc_vs=HBksFQIYUmlnX3hwdl9yZWVsc19wZXJtYW5lbnRfc3JfcHJvZC83NDQ3MkNDNEE4QTI3OUM2M0NGNjBEMjQxNjIyRURCMV92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HTE5GVnhfQ0FJZGlyMndDQUtJQlFHU2U4YlV2YnFfRUFBQUYVAgLIARIAKAAYABsCiAd1c2Vfb2lsATEScHJvZ3Jlc3NpdmVfcmVjaXBlATEVAAAmgKDqgPSRtAQVAigCQzMsF0BDTMzMzMzNGBJkYXNoX2Jhc2VsaW5lXzFfdjERAHX-B2XmnQEA&_nc_gid=QykU8SFnuH1Ds-bm_88pUg&_nc_zt=28&oh=00_Afj3lmRTHPDgZSMmZctkJl_1gXl5UPj-kIqPy_fJiSlMsA&oe=69097BF4" loop autoplay muted></audio>
+
     <div class="slideshow-container">
         <div class="slides-wrapper">
             <!-- Slide 1 -->
             <div class="slide active">
                 <a href="https://ibb.co/TfJP6dC"><img src="https://i.ibb.co/rjq5YNW/Snapchat-37488287.jpg" alt="Snapchat-37488287" border="0"></a>
                 <div class="slide-caption">
-                    <h3>Beautiful Landscape</h3>
-                    <p>Explore the wonders of nature</p>
+                    <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
                 </div>
             </div>
 
             <!-- Slide 2 -->
             <div class="slide">
                 <a href="https://ibb.co/YFKtXYzt"><img src="https://i.ibb.co/pBs3QGt3/Snapchat-364210847.jpg" alt="Snapchat-364210847" border="0"></a>                <div class="slide-caption">
-                    <h3>City Skyline</h3>
-                    <p>Urban architecture at its finest</p>
+                     <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
                 </div>
             </div>
 
             <!-- Slide 3 -->
             <div class="slide">
                 <a href="https://ibb.co/27R3td9x"><img src="https://i.ibb.co/qMhYspSK/Snapchat-378489441.jpg" alt="Snapchat-378489441" border="0"></a>                <div class="slide-caption">
-                    <h3>Ocean View</h3>
-                    <p>The calming sound of waves</p>
+                     <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
                 </div>
             </div>
 
             <!-- Slide 4 -->
             <div class="slide">
                 <a href="https://ibb.co/B59dNxV6"><img src="https://i.ibb.co/NdMQSP6N/Snapchat-1190462304.jpg" alt="Snapchat-1190462304" border="0"></a>                <div class="slide-caption">
-                    <h3>Mountain Peak</h3>
-                    <p>Reach new heights</p>
+                      <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
                 </div>
             </div>
 
             <!-- Slide 5 -->
             <div class="slide">
                 <a href="https://ibb.co/YBQvksWB"><img src="https://i.ibb.co/JjtX7Jdj/Snapchat-1499820383.jpg" alt="Snapchat-1499820383" border="0"></a>                <div class="slide-caption">
-                    <h3>Forest Path</h3>
-                    <p>A journey through the woods</p>
+                  <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
                 </div>
             </div>
         </div>
@@ -306,8 +328,8 @@
          <!-- Slide 6 -->
          <div class="slide">
             <a href="https://ibb.co/wrMnzXZT"><img src="https://i.ibb.co/vvZNjGCb/Snapchat-1649835796.jpg" alt="Snapchat-1649835796" border="0"></a>            <div class="slide-caption">
-                <h3>City Skyline</h3>
-                <p>Urban architecture at its finest</p>
+                 <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
             </div>
         </div>
 
@@ -315,8 +337,8 @@
          <!-- Slide 7 -->
          <div class="slide">
             <a href="https://ibb.co/VWsN868M"><img src="https://i.ibb.co/pvSPpqp4/Snapchat-1680113108.jpg" alt="Snapchat-1680113108" border="0"></a>            <div class="slide-caption">
-                <h3>City Skyline</h3>
-                <p>Urban architecture at its finest</p>
+              <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
             </div>
         </div>
 
@@ -325,8 +347,8 @@
          <!-- Slide 8 -->
          <div class="slide">
             <a href="https://ibb.co/W4DRmW7L"><img src="https://i.ibb.co/ychxHnKr/Snapchat-1709722207.jpg" alt="Snapchat-1709722207" border="0"></a>            <div class="slide-caption">
-                <h3>City Skyline</h3>
-                <p>Urban architecture at its finest</p>
+                <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
             </div>
         </div>
 
@@ -336,8 +358,8 @@
          <!-- Slide 9 -->
          <div class="slide">
             <a href="https://ibb.co/v46NfHYz"><img src="https://i.ibb.co/5hgQC6Fc/Snapchat-1907169732.jpg" alt="Snapchat-1907169732" border="0"></a>            <div class="slide-caption">
-                <h3>City Skyline</h3>
-                <p>Urban architecture at its finest</p>
+                 <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
             </div>
         </div>
 
@@ -347,8 +369,8 @@
          <!-- Slide 10 -->
          <div class="slide">
             <a href="https://ibb.co/tPP0DmYv"><img src="https://i.ibb.co/bRR4XWNC/Snapchat-1938847683.jpg" alt="Snapchat-1938847683" border="0"></a>            <div class="slide-caption">
-                <h3>City Skyline</h3>
-                <p>Urban architecture at its finest</p>
+                <h3>🛕Lodhi Garden🛕</h3>
+                    <p>❤️Beautiful Place But Not More Than You❤️</p>
             </div>
         </div>
 
@@ -395,27 +417,51 @@
             const slideHeight = currentSlideElement.offsetHeight;
             
             // Create multiple hearts at random positions
-            for (let i = 0; i < 8; i++) {
+            // Increased to 15 hearts total
+            for (let i = 0; i < 15; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.classList.add('heart');
                     
                     // Random position within the slide
                     const leftPosition = Math.random() * (slideWidth - 20);
-                    const bottomPosition = Math.random() * 100; // Start from bottom area
+                    
+                    // Randomly determine if heart is purple (40% chance) or red (60% chance)
+                    const isPurple = Math.random() < 0.4;
+                    
+                    // Randomly determine if heart falls from top (50% chance) or rises from bottom (50% chance)
+                    const isFalling = Math.random() < 0.5;
+                    
+                    // Set position based on direction
+                    if (isFalling) {
+                        heart.style.top = '-20px';
+                        heart.classList.add('falling');
+                    } else {
+                        heart.style.bottom = `${Math.random() * 100}px`;
+                        heart.classList.add('rising');
+                    }
                     
                     heart.style.left = `${leftPosition}px`;
-                    heart.style.bottom = `${bottomPosition}px`;
                     
                     // Random size variation
                     const scale = 0.5 + Math.random() * 0.5;
                     heart.style.transform = `rotate(45deg) scale(${scale})`;
                     
-                    // Random color variation
-                    const red = 255;
-                    const green = Math.floor(Math.random() * 100);
-                    const blue = Math.floor(Math.random() * 100);
-                    const opacity = 0.5 + Math.random() * 0.5;
+                    // Set color based on type
+                    let red, green, blue, opacity;
+                    if (isPurple) {
+                        // Purple hearts
+                        red = 150 + Math.floor(Math.random() * 50);
+                        green = 50 + Math.floor(Math.random() * 50);
+                        blue = 200 + Math.floor(Math.random() * 55);
+                        opacity = 0.6 + Math.random() * 0.4;
+                    } else {
+                        // Red hearts
+                        red = 255;
+                        green = Math.floor(Math.random() * 100);
+                        blue = Math.floor(Math.random() * 100);
+                        opacity = 0.5 + Math.random() * 0.5;
+                    }
                     
                     heart.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
                     
@@ -432,9 +478,11 @@
                     currentSlideElement.appendChild(heart);
                     
                     // Remove heart after animation completes
+                    // Longer timeout for falling hearts (3s) vs rising hearts (2s)
+                    const timeout = isFalling ? 3000 : 2000;
                     setTimeout(() => {
                         heart.remove();
-                    }, 2000);
+                    }, timeout);
                 }, i * 200); // Stagger the appearance of hearts
             }
         }
