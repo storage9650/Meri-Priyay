@@ -242,13 +242,32 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+            
+            .slideshow-container {
+                max-width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            
             .slide {
-                height: 350px;
+                height: 100vh;
             }
             
             .prev, .next {
                 width: 40px;
                 height: 40px;
+            }
+            
+            .prev {
+                left: 10px;
+            }
+            
+            .next {
+                right: 10px;
             }
             
             .slide-caption h3 {
@@ -257,6 +276,18 @@
             
             .slide-caption p {
                 font-size: 0.9rem;
+            }
+            
+            .controls {
+                position: absolute;
+                bottom: 60px;
+                width: 100%;
+                background-color: rgba(240, 240, 240, 0.8);
+                z-index: 10;
+            }
+            
+            .dots-container {
+                bottom: 120px;
             }
         }
     </style>
@@ -306,7 +337,7 @@
             </div>
         </div>
 
-         <!-- Slide 2 -->
+         <!-- Slide 6 -->
          <div class="slide">
             <a href="https://ibb.co/wrMnzXZT"><img src="https://i.ibb.co/vvZNjGCb/Snapchat-1649835796.jpg" alt="Snapchat-1649835796" border="0"></a>            <div class="slide-caption">
                 <h3>City Skyline</h3>
@@ -315,7 +346,7 @@
         </div>
 
 
-         <!-- Slide 2 -->
+         <!-- Slide 7 -->
          <div class="slide">
             <a href="https://ibb.co/VWsN868M"><img src="https://i.ibb.co/pvSPpqp4/Snapchat-1680113108.jpg" alt="Snapchat-1680113108" border="0"></a>            <div class="slide-caption">
                 <h3>City Skyline</h3>
@@ -325,7 +356,7 @@
 
 
 
-         <!-- Slide 2 -->
+         <!-- Slide 8 -->
          <div class="slide">
             <a href="https://ibb.co/W4DRmW7L"><img src="https://i.ibb.co/ychxHnKr/Snapchat-1709722207.jpg" alt="Snapchat-1709722207" border="0"></a>            <div class="slide-caption">
                 <h3>City Skyline</h3>
@@ -336,7 +367,7 @@
 
 
 
-         <!-- Slide 2 -->
+         <!-- Slide 9 -->
          <div class="slide">
             <a href="https://ibb.co/v46NfHYz"><img src="https://i.ibb.co/5hgQC6Fc/Snapchat-1907169732.jpg" alt="Snapchat-1907169732" border="0"></a>            <div class="slide-caption">
                 <h3>City Skyline</h3>
@@ -347,7 +378,7 @@
 
 
 
-         <!-- Slide 2 -->
+         <!-- Slide 10 -->
          <div class="slide">
             <a href="https://ibb.co/tPP0DmYv"><img src="https://i.ibb.co/bRR4XWNC/Snapchat-1938847683.jpg" alt="Snapchat-1938847683" border="0"></a>            <div class="slide-caption">
                 <h3>City Skyline</h3>
@@ -369,12 +400,11 @@
             <span class="dot" onclick="currentSlide(3)"></span>
             <span class="dot" onclick="currentSlide(4)"></span>
             <span class="dot" onclick="currentSlide(5)"></span>
-            <span class="dot" onclick="currentSlide(5)"></span>
-            <span class="dot" onclick="currentSlide(5)"></span>
-            <span class="dot" onclick="currentSlide(5)"></span>
-            <span class="dot" onclick="currentSlide(5)"></span>
-            <span class="dot" onclick="currentSlide(5)"></span>
-
+            <span class="dot" onclick="currentSlide(6)"></span>
+            <span class="dot" onclick="currentSlide(7)"></span>
+            <span class="dot" onclick="currentSlide(8)"></span>
+            <span class="dot" onclick="currentSlide(9)"></span>
+            <span class="dot" onclick="currentSlide(10)"></span>
         </div>
 
         <!-- Timer bar -->
