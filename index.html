@@ -154,33 +154,6 @@
             transform: scale(1.2);
         }
 
-        .controls {
-            display: flex;
-            justify-content: center;
-            padding: 15px;
-            background-color: #f0f0f0;
-            gap: 15px;
-        }
-
-        .control-btn {
-            padding: 8px 15px;
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .control-btn:hover {
-            background-color: #3a7bc8;
-        }
-
-        .control-btn.active {
-            background-color: #e24a4a;
-        }
-
         .timer-bar {
             position: absolute;
             bottom: 0;
@@ -279,16 +252,8 @@
                 font-size: 0.9rem;
             }
             
-            .controls {
-                position: absolute;
-                bottom: 60px;
-                width: 100%;
-                background-color: rgba(240, 240, 240, 0.8);
-                z-index: 10;
-            }
-            
             .dots-container {
-                bottom: 120px;
+                bottom: 20px; /* Adjusted position since controls are gone */
             }
         }
     </style>
@@ -410,20 +375,12 @@
 
         <!-- Timer bar -->
         <div class="timer-bar" id="timerBar"></div>
-
-        <!-- Control buttons -->
-        <div class="controls">
-            <button class="control-btn" id="playPauseBtn" onclick="togglePlayPause()">Pause</button>
-            <button class="control-btn" onclick="resetSlideshow()">Reset</button>
-        </div>
     </div>
 
     <script>
         let slideIndex = 1;
         let slideInterval;
-        let isPlaying = true;
         const timerBar = document.getElementById('timerBar');
-        const playPauseBtn = document.getElementById('playPauseBtn');
 
         // Initialize the slideshow
         function initSlideshow() {
@@ -484,21 +441,19 @@
 
         // Start the automatic slideshow
         function startSlideshow() {
-            if (isPlaying) {
-                // Start the timer bar animation
-                timerBar.classList.add('active');
+            // Start the timer bar animation
+            timerBar.classList.add('active');
+            
+            // Set interval to change slide every 2 seconds
+            slideInterval = setInterval(() => {
+                slideIndex++;
+                showSlide(slideIndex);
                 
-                // Set interval to change slide every 2 seconds
-                slideInterval = setInterval(() => {
-                    slideIndex++;
-                    showSlide(slideIndex);
-                    
-                    // Reset and restart the timer bar animation
-                    timerBar.classList.remove('active');
-                    void timerBar.offsetWidth; // Trigger reflow
-                    timerBar.classList.add('active');
-                }, 2000);
-            }
+                // Reset and restart the timer bar animation
+                timerBar.classList.remove('active');
+                void timerBar.offsetWidth; // Trigger reflow
+                timerBar.classList.add('active');
+            }, 2000);
         }
 
         // Stop the slideshow
@@ -507,45 +462,12 @@
             timerBar.classList.remove('active');
         }
 
-        // Toggle play/pause
-        function togglePlayPause() {
-            isPlaying = !isPlaying;
-            
-            if (isPlaying) {
-                playPauseBtn.textContent = 'Pause';
-                playPauseBtn.classList.remove('active');
-                startSlideshow();
-            } else {
-                playPauseBtn.textContent = 'Play';
-                playPauseBtn.classList.add('active');
-                stopSlideshow();
-            }
-        }
-
-        // Reset slideshow to first slide
-        function resetSlideshow() {
-            stopSlideshow();
-            slideIndex = 1;
-            showSlide(slideIndex);
-            if (isPlaying) {
-                startSlideshow();
-            }
-        }
-
         // Change slide by n positions
         function changeSlide(n) {
             stopSlideshow();
             slideIndex += n;
             showSlide(slideIndex);
-            
-            // Reset and restart the timer bar animation
-            timerBar.classList.remove('active');
-            void timerBar.offsetWidth; // Trigger reflow
-            timerBar.classList.add('active');
-            
-            if (isPlaying) {
-                startSlideshow();
-            }
+            startSlideshow(); // Always restart after manual change
         }
 
         // Go to specific slide
@@ -553,15 +475,7 @@
             stopSlideshow();
             slideIndex = n;
             showSlide(slideIndex);
-            
-            // Reset and restart the timer bar animation
-            timerBar.classList.remove('active');
-            void timerBar.offsetWidth; // Trigger reflow
-            timerBar.classList.add('active');
-            
-            if (isPlaying) {
-                startSlideshow();
-            }
+            startSlideshow(); // Always restart after manual change
         }
 
         // Display the current slide
@@ -597,16 +511,12 @@
 
         // Pause slideshow on hover
         document.querySelector('.slideshow-container').addEventListener('mouseenter', () => {
-            if (isPlaying) {
-                stopSlideshow();
-            }
+            stopSlideshow();
         });
 
         // Resume slideshow when mouse leaves
         document.querySelector('.slideshow-container').addEventListener('mouseleave', () => {
-            if (isPlaying) {
-                startSlideshow();
-            }
+            startSlideshow();
         });
 
         // Initialize the slideshow when the page loads
